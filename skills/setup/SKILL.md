@@ -12,17 +12,13 @@ Write a fixed `## Agent skills` block into CLAUDE.md or AGENTS.md.
 
 ### 1. Explore
 
-Check `AGENTS.md` and `CLAUDE.md` at the root — which exists? Is there already an `## Agent skills` section?
+Check `CLAUDE.md` at the root — does it exist? Is there already an `## Agent skills` section?
 
 ### 2. Write
 
-Pick the file:
+Use `CLAUDE.md`. Create it if it doesn't exist.
 
-- If `CLAUDE.md` exists, edit it.
-- Else if `AGENTS.md` exists, edit it.
-- If neither exists, ask the user which to create.
-
-Never create both. If an `## Agent skills` block already exists, update it in-place rather than appending a duplicate.
+If an `## Agent skills` block already exists, update it in-place rather than appending a duplicate.
 
 Write this block:
 
