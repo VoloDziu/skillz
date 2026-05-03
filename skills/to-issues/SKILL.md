@@ -7,7 +7,7 @@ description: Break a plan, spec, or PRD into independently-grabbable issues on t
 
 Break a plan into independently-grabbable issues using vertical slices (tracer bullets).
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+The issue tracker structure should be in the `## Agent skills` block in CLAUDE.md — run `/setup` if not.
 
 ## Process
 
@@ -23,8 +23,6 @@ If you have not already explored the codebase, do so to understand the current s
 
 Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
-Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
-
 <vertical-slice-rules>
 - Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
 - A completed slice is demoable or verifiable on its own
@@ -36,26 +34,24 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 Present the proposed breakdown as a numbered list. For each slice, show:
 
 - **Title**: short descriptive name
-- **Type**: HITL / AFK
 - **Blocked by**: which other slices (if any) must complete first
-- **User stories covered**: which user stories this addresses (if the source material has them)
-
 Ask the user:
 
 - Does the granularity feel right? (too coarse / too fine)
 - Are the dependency relationships correct?
 - Should any slices be merged or split further?
-- Are the correct slices marked as HITL and AFK?
 
 Iterate until the user approves the breakdown.
 
 ### 5. Publish the issues to the issue tracker
 
-For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. Apply the `needs-triage` triage label so each issue enters the normal triage flow.
+For each approved slice, publish a new issue to the issue tracker using the issue body template below. Set `Status: todo` so it's ready to be picked up.
 
 Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
 
 <issue-template>
+Status: todo
+
 ## Parent
 
 A reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
