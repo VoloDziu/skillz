@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Writes a fixed `## Agent skills` block into CLAUDE.md/AGENTS.md so that `to-issues`, `to-prd`, and `grill-with-docs` know how this repo is structured. Run once per repo before using those skills.
+description: Writes a fixed `## Agent skills` block into CLAUDE.md/AGENTS.md so that `to-issues`, `to-prd`, `grill-with-docs`, and `engage` know how this repo is structured. Run once per repo before using those skills.
 disable-model-invocation: true
 ---
 
@@ -32,7 +32,7 @@ Issues live as files under `.scratch/`:
 - Feature directory: `.scratch/<feature-slug>/`
 - PRD: `.scratch/<feature-slug>/PRD.md`
 - Issues: `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
-- Track status with a `Status:` line near the top: `todo`, `in-progress`, `done`, or `wontfix`
+- Track status with a `Status:` line near the top: `todo`, `in-progress`, `review`, `done`, or `wontfix`
 - Append comments under a `## Comments` heading at the bottom
 
 ### Domain docs
@@ -42,4 +42,4 @@ Read `CONTEXT.md` at the repo root before exploring the codebase. Read any ADRs 
 
 ### 3. Done
 
-Tell the user setup is complete. `to-issues`, `to-prd`, and `grill-with-docs` will now read from this block.
+Tell the user setup is complete. `to-issues`, `to-prd`, `grill-with-docs`, and `engage` will now read from this block.
