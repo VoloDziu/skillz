@@ -18,7 +18,7 @@ escape_for_json() {
 context=""
 loaded_names=()
 
-for skill_name in caveman; do
+for skill_name in caveman coding-rules; do
     skill_file="${SKILLS_DIR}/${skill_name}/SKILL.md"
 
     if [[ ! -f "${skill_file}" ]]; then

@@ -1,0 +1,117 @@
+---
+name: coding-rules
+description: Opinionated mandatory coding rules for TypeScript/React development. Contains non-negotiable standards covering code structure, React patterns, TypeScript safety, testing, and tooling. Consult this skill whenever writing or modifying any TypeScript or React code — components, hooks, tests — even if the user hasn't explicitly asked about coding standards. Also use when reviewing code, refactoring, or when something "looks off." These rules override default coding instincts.
+---
+
+# Coding Rules
+
+Apply to all code written or modified. Verify every changed file complies before finishing any task.
+
+---
+
+## Code Structure
+
+**Curly braces on every block** — wrap all `if`, `else`, `for`, `while` bodies in `{}`, even single-liners.
+
+**Early returns over nested conditions** — validate preconditions at the top and return immediately; keep the happy path at the lowest indentation level. Deep nesting forces the reader to track multiple simultaneous conditions. Each guard clause reduces that cognitive load for everything that follows.
+- Don't: `if (user) { if (user.active) { if (hasPermission) { doWork(); } } }`
+- Do: `if (!user) { return; } if (!user.active) { return; } if (!hasPermission) { return; } doWork();`
+
+**Positive conditions first** — when there's an `if/else` or ternary with two branches, put the positive/truthy case first. Guard clauses (`if (!x) { return; }`) are exempt.
+- Don't: `!isReady ? fallback : content`
+- Do: `isReady ? content : fallback`
+
+**No IIFEs in components** — extract `(() => { ... })()` as a named pure function above the component.
+
+**Extract nested ternaries** — a single inline ternary is fine; two or more levels must become a named pure function above the component.
+
+**No unnecessary indirection** — don't create variables, functions, or aliases that add a layer without adding meaning. Inline directly at the call site. Prefer repetition over a spurious abstraction.
+- Don't: `const handleChange = (v) => ctx.setName(v); <Input onChange={handleChange} />`
+- Do: `<Input onChange={ctx.setName} />`
+- Don't: `const save = () => storage.save(); save();`
+- Do: `storage.save();`
+- Don't: `function formatDate(d: Date) { return toISOString(d); }`
+- Do: call `toISOString(d)` directly
+- Don't: `const isOwner = user.role === 'owner'; if (isOwner) { ... }`
+- Do: `if (user.role === 'owner') { ... }`
+- Don't: `const label = item.name.trim(); return <Text>{label}</Text>`
+- Do: `return <Text>{item.name.trim()}</Text>`
+
+**Named-param objects** — any regular function (not a component or hook) with 2+ params must use a single `params` object.
+- Don't: `fn(a: A, b: B, c: C)`
+- Do: `fn(params: { a: A; b: B; c: C })`
+
+**Inline prop/param types** — extract a type alias only if the same shape appears in 2+ places.
+- Don't: `type FooProps = { name: string }; const Foo = (props: FooProps) => ...`
+- Do: `const Foo = (props: { name: string }) => ...`
+
+**No switch statements** — use `if` with early returns instead. Switch statements encourage fall-through bugs, require explicit `break`s, and obscure the control flow. Early returns make each branch self-contained and the happy path obvious at the bottom.
+- Don't: `switch (status) { case 'a': ...; break; case 'b': ...; break; default: ... }`
+- Do: `if (status === 'a') { return ...; } if (status === 'b') { return ...; } return ...`
+
+---
+
+## React
+
+**No destructuring hook returns or props** — always use the whole object. Namespaced access (`result.data`, `props.nav`) makes it clear at the read site where each value comes from, without needing to trace back to the destructure. Exception: tuple hooks (`useState`, `useReducer`, `useStorageState`) use array destructuring — that's their intended API.
+- Don't: `const { data, loading } = useMyHook()` or `const MyComp = ({ nav, route }: Props) => ...`
+- Do: `const result = useMyHook(); result.data;` or `const MyComp = (props: Props) => { props.nav; }`
+
+**No business logic in `useEffect`** — effects are for syncing with external systems. If an effect runs only because a value changed that you set elsewhere, move the logic into the handler that sets it.
+
+**No `useCallback`/`useMemo` by default** — only add them for a specific, identifiable performance problem. Never preemptively.
+
+**Prefer pure functions > components > hooks** when extracting shared logic. Reach for a hook only when React lifecycle is genuinely required.
+
+**Hoist stranglers to the top of the tree** — when feature flagging, A/B testing, or toggling between an experimental and existing variant of the same UI, place the branching logic as high as possible in the component tree (or call stack). Mount the new variant from a parent wrapper; don't weave the conditional into the existing component's internals. The original code path stays completely unmodified, the experiment is trivially removable, and the diff stays small.
+- Don't: add `isExperiment` checks scattered through `<PaymentForm>` internals
+- Do: in the parent, render `isExperiment ? <PaymentFormV2 /> : <PaymentForm />` — the original component is untouched
+- Don't: thread a `variant` prop down through 3 layers of components so a leaf can branch
+- Do: wrap at the highest common ancestor; each variant renders its own subtree independently
+
+---
+
+## TypeScript
+
+**No `as` type casting** — refactor so types flow naturally.
+
+**No non-null assertions `!`** — use `=== undefined`/`=== null` guards with early returns or optional chaining instead.
+
+**No `eslint-disable` or `@ts-ignore`/`@ts-expect-error`** — fix the underlying issue.
+
+**No default exports** — named exports only.
+
+---
+
+## Data Safety
+
+**Never default money amounts** — never use `?? 0` or any numeric fallback for a monetary value. A missing amount is a bug.
+- Don't: `new Decimal(ctx.amount ?? 0).toFixed(2)`
+- Do: `if (ctx.amount === undefined) { throw new Error('amount missing'); }` then use `ctx.amount`
+
+Applies broadly: never silently default any value whose absence indicates a programming error.
+
+---
+
+## Testing
+
+**Never change implementation to make a test pass** — fix the test, not the code. Only touch implementation for genuine production bugs.
+
+**Keep tests in sync with code changes**:
+- New functionality → write new tests
+- Modified functionality → update existing tests
+- Moved functionality → move the tests too; never leave them in the old location
+
+---
+
+## Tooling
+
+**Never commit, stage, or push on the user's behalf** — do not run `git add`, `git commit`, `git push`, or any equivalent unless explicitly asked.
+
+---
+
+## General
+
+**Always refactor copied code** — treat copy-pasted code as a first draft; apply all rules before using it.
+
+**No comments by default** — only add a comment when the *why* is non-obvious: a hidden constraint, a subtle invariant, or a workaround for a specific external bug. Never describe what the code does; never reference the current task, ticket, or caller.
