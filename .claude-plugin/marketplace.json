@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "skillz",
   "owner": {
     "name": "Volodymyr Dziubak"
@@ -6,8 +7,12 @@
   "plugins": [
     {
       "name": "skillz",
-      "source": ".",
-      "description": "Personal Claude skills — engage, to-issues, to-prd, grill-with-docs, caveman, and more."
+      "description": "Personal Claude skills — engage, to-issues, to-prd, grill-with-docs, caveman, and more.",
+      "author": "Volodymyr Dziubak",
+      "source": {
+        "source": "github",
+        "repo": "VoloDziu/skillz"
+      }
     }
   ]
 }
