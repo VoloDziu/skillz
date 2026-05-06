@@ -33,7 +33,6 @@ Issues live as files under `.scratch/`:
 - PRD: `.scratch/<feature-slug>/PRD.md`
 - Issues: `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
 - Track status with a `Status:` line near the top: `todo`, `in-progress`, `review`, `done`, or `wontfix`
-- Append comments under a `## Comments` heading at the bottom
 
 ### Domain docs
 

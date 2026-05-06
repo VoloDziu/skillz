@@ -1,0 +1,13 @@
+{
+  "name": "skillz",
+  "owner": {
+    "name": "Volodymyr Dziubak"
+  },
+  "plugins": [
+    {
+      "name": "skillz",
+      "source": ".",
+      "description": "Personal Claude skills — engage, to-issues, to-prd, grill-with-docs, caveman, and more."
+    }
+  ]
+}
