@@ -137,10 +137,6 @@ Applies broadly: never silently default any value whose absence indicates a prog
 
 ## Tooling
 
-**Use `date-fns` not `moment.js`**
-- Don't: `import moment from 'moment'; moment(date).format('YYYY-MM-DD')`
-- Do: `import { format } from 'date-fns'; format(date, 'yyyy-MM-dd')`
-
 **Never commit, stage, or push on the user's behalf** — do not run `git add`, `git commit`, `git push`, or any equivalent unless explicitly asked.
 
 ---
