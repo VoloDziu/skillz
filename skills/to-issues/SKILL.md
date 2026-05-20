@@ -41,7 +41,7 @@ Ask the user:
 - Are the dependency relationships correct?
 - Should any slices be merged or split further?
 
-Iterate until the user approves the breakdown.
+Iterate until the user approves the breakdown. **Do not proceed to step 5 until the user explicitly confirms** (yes / go / approve / looks good). A lack of objection is not approval.
 
 ### 5. Publish the issues to the issue tracker
 

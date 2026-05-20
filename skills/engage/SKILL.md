@@ -76,7 +76,9 @@ Present the plan and iterate until the user approves it. Ask:
 
 The plan is the most valuable output here — take the time to get it right.
 
-Once approved:
+**Hard stop: do not write any files, change any status, or begin implementation until the user explicitly confirms the plan** (yes / go / approve / looks good). Silence, a follow-up question, or a minor tweak is not confirmation.
+
+Once explicitly confirmed:
 1. Append the plan to the issue file under a `## Implementation Plan` section
 2. Change `Status: todo` → `Status: in-progress`
 3. Proceed to [Implement](#implement)

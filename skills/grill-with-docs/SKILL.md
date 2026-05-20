@@ -53,7 +53,7 @@ When the user states how something works, check whether the code agrees. If you 
 
 ### Update CONTEXT.md inline
 
-When a term is resolved, update `CONTEXT.md` right there. Don't batch these up — capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+When a term is resolved, propose the exact entry to add to `CONTEXT.md` and ask the user to confirm before writing. Show the proposed text inline: "I'll add this to CONTEXT.md — ok?" Wait for explicit confirmation (yes / go / approve) before touching any file.
 
 Don't couple `CONTEXT.md` to implementation details. Only include terms that are meaningful to domain experts.
 
@@ -66,5 +66,7 @@ Only offer to create an ADR when all three are true:
 3. **The result of a real trade-off** — there were genuine alternatives and you picked one for specific reasons
 
 If any of the three is missing, skip the ADR. Use the format in [ADR-FORMAT.md](./ADR-FORMAT.md).
+
+When all three conditions are met, propose the ADR content inline and ask: "Should I create this ADR?" Wait for explicit confirmation before writing any file.
 
 </supporting-info>

@@ -11,7 +11,11 @@ The issue tracker structure should be in the `## Agent skills` block in CLAUDE.m
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 
-2. Write the PRD using the template below, then publish it to the project issue tracker as `.scratch/<feature-slug>/PRD.md`.
+2. Draft the PRD using the template below and present it to the user inline. **Stop here — do not write any files yet.** Ask: "Does this look right? Reply yes/go/approve to publish."
+
+3. Wait for explicit confirmation (yes / go / approve / looks good). Do not proceed until you receive it.
+
+4. Once confirmed, publish to the project issue tracker as `.scratch/<feature-slug>/PRD.md`.
 
 <prd-template>
 
