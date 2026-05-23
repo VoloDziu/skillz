@@ -5,7 +5,61 @@ description: Opinionated mandatory coding rules for TypeScript/React development
 
 # Coding Rules
 
+These rules override your default coding instincts. The patterns you reach for by reflex — adding comments to explain code, extracting one-line helpers, sprinkling `useCallback`, destructuring hook returns — are the exact things to suppress here. The pre-flight checklist below is injected into context before every code-mutating tool call; the full rules and rationale follow it. Auditing the resulting diff against these rules is handled by `/self-review` and `/engage`.
+
 Apply to all code written or modified. Verify every changed file complies before finishing any task.
+
+---
+
+## Pre-flight checklist — every rule in brief
+
+Each bullet is the terse form of a rule. The full rationale and examples for each follow in the sections below. This list is exhaustive — every rule in this document is represented here.
+
+<!-- BEGIN PREFLIGHT -->
+**Code structure**
+- **No indirection** — no one-line helpers, aliased variables, or wrapper functions called once. Inline at the call site.
+- **Inline single-use `Props`/param types** — extract a type alias only if reused in 2+ places. Top-level/exported components are not exempt.
+- **No nested ternaries** — one ternary is fine; 2+ levels become a named pure function above the component.
+- **Positive conditions first** in `if/else` and 2-branch ternaries. Only early-return guards (`if (!x) return`) are exempt.
+- **Named-param objects** for any regular function (not a component or hook) with 2+ params.
+- **Early returns over nested conditions** — validate preconditions at the top; keep the happy path at the lowest indent.
+- **No `switch`** — use `if` with early returns.
+- **No IIFEs in components** — extract `(() => {...})()` as a named pure function above.
+- **Curly braces on every block** — wrap all `if`/`else`/`for`/`while` bodies in `{}`, even single-liners.
+
+**React**
+- **No `useCallback` / `useMemo`** unless there's a measured perf problem.
+- **No destructuring hook returns or props** — use the whole object (`result.data`, `props.nav`). Tuple hooks (`useState`, `useReducer`) excepted.
+- **Prefer pure functions > components > hooks** when extracting shared logic.
+- **No business logic in `useEffect`** — effects sync with external systems. Move logic into the handler that sets the value.
+- **Hoist stranglers to the top of the tree** — branch feature flags / experiments at a parent wrapper, never inside the existing component.
+
+**TypeScript**
+- **No `as` casts** — refactor so types flow naturally.
+- **No `!` non-null assertions** — use `=== undefined` / `=== null` guards or optional chaining.
+- **No `eslint-disable`, `@ts-ignore`, `@ts-expect-error`** — fix the root cause.
+- **No default exports** — named exports only.
+
+**Co-location**
+- **Helpers travel with their only caller** — when extracting a sub-component, every helper the parent no longer calls moves with it. No orphans left behind.
+- **Narrowest scope for variables** — declare in the block that uses them, not at the top of the function.
+- **Extract cohesive UI clusters** — form fields, list rows, conditional sub-views with their own helpers (and optional state) belong in their own component. Cohesion is the trigger, not size; state is not required.
+- **Derive at the point of use** — pass entities (or entity IDs) down; compute derived values where they're consumed. Don't pre-compute in the parent and thread results as props.
+
+**Data safety**
+- **No silent defaults** (`?? 0`, etc.) for money or any value whose absence is a programming bug. Throw or guard.
+
+**Testing**
+- **Never change implementation to make a test pass** — fix the test, not the code (except for genuine production bugs).
+- **Keep tests in sync with code** — new fn → new test; modified → updated; moved → tests move too.
+
+**Tooling**
+- **Never `git add` / `commit` / `push`** unless explicitly asked.
+
+**General**
+- **No comments** unless the *why* is non-obvious (hidden constraint, subtle invariant, external-bug workaround). Never narrate what code does or reference the current task/ticket/caller.
+- **Refactor copied code** before using it — treat copy-paste as a first draft; apply all rules.
+<!-- END PREFLIGHT -->
 
 ---
 
@@ -79,6 +133,16 @@ The test: if every piece of the cluster — state, handlers, helpers, markup —
 - Do: `return` directly from each branch
 
 **Helpers travel with their only caller** — when a pure function, constant, or type alias is used by exactly one component (or one sub-cluster), it belongs in that component's scope or file. Helpers stranded at the top of a parent file but called only from one child are noise the reader scans past to reach what they came for. **When you extract a sub-component, every helper the parent no longer calls moves with it — never leave orphan helpers behind in the parent file.** If multiple children use a helper, hoist it to the nearest shared scope, and no further. A utility used only within one file should not graduate to a shared module.
+
+**Derive at the point of use** — when a child needs values derived from an entity (a formatted name, a computed status, a flag inferred from a few fields), pass the entity itself (or its ID) and derive at the consumer. Don't pre-compute derived values in the parent — or worse, at the API boundary — and thread the results down as props. Duplicating a one-line derivation across two consumers is preferable to centralizing it upstream.
+
+Why: pre-computing pulls derivation logic away from where it's read, bloats prop interfaces, and couples the parent to every child's display needs. When the derivation rule changes, the change belongs next to the JSX that renders it, not three layers up. Pure derivations are cheap — calling `formatName(user)` in three siblings costs nothing measurable and pays back every time someone reads the code.
+- Don't: parent computes `const fullName = formatName(user); const isPremium = user.tier === 'gold';` and passes `fullName` and `isPremium` as props to children
+- Do: parent passes `user` (or `userId`); each child calls `formatName(props.user)` / checks `props.user.tier === 'gold'` where the value is rendered
+- Don't: an API-shaped object gets unpacked into a wide bag of pre-derived flags at the top of the screen, then passed down
+- Do: pass the entity; let each leaf reach for the field or derivation it actually needs
+
+Exception: if a derivation is measured-expensive, or the derived value *is* the contract of a reusable component (e.g., a generic `<Badge label={...} />`), passing the derived value is correct.
 
 ---
 

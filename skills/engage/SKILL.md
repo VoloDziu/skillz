@@ -1,6 +1,6 @@
 ---
 name: engage
-description: Start, resume, or close out an issue from the project issue tracker end-to-end. Use this whenever you want to pick up work, plan an issue, resume an in-progress ticket, mark implementation as done, or close a reviewed issue. Triggers on: "engage", "start an issue", "next issue", "what should I work on", "pick up a ticket", "let's work on something", "resume", "back to work", "implementation is done", "ready for review", "mark as done", "done reviewing", "close the ticket", "ship it", "LGTM".
+description: Start or resume an issue from the project issue tracker. Use this whenever you want to pick up work, plan an issue, or resume an in-progress ticket. Triggers on: "engage", "start an issue", "next issue", "what should I work on", "pick up a ticket", "let's work on something", "resume", "back to work", "implementation is done", "ready for review".
 ---
 
 # Engage
@@ -79,23 +79,24 @@ The plan is the most valuable output here — take the time to get it right.
 **Hard stop: do not write any files, change any status, or begin implementation until the user explicitly confirms the plan** (yes / go / approve / looks good). Silence, a follow-up question, or a minor tweak is not confirmation.
 
 Once explicitly confirmed:
-1. Append the plan to the issue file under a `## Implementation Plan` section
-2. Change `Status: todo` → `Status: in-progress`
-3. Proceed to [Implement](#implement)
+1. Change `Status: todo` → `Status: in-progress`
+2. Proceed to [Implement](#implement)
+
+Do not append the plan to the issue file — keep it in the conversation only. The issue's acceptance criteria are the durable record of done; the implementation plan is a working artifact for this session.
 
 ---
 
 ## Implement
 
-Work through the checklist top to bottom. After completing each item, check it off in the issue file immediately:
+Work through the implementation plan top to bottom. As each acceptance criterion in the issue file becomes satisfied, check it off immediately:
 
 ```
-- [x] Step 1: Add `X` field to `schema.ts`
+- [x] Criterion that is now met
 ```
 
-If something unexpected comes up mid-implementation that changes the approach, stop and discuss with the user before continuing. Update the checklist in the issue file if the plan changes.
+If something unexpected comes up mid-implementation that changes the approach, stop and discuss with the user before continuing.
 
-When all items are checked off (or the user signals implementation is complete):
+When all acceptance criteria are checked off (or the user signals implementation is complete):
 1. Change `Status: in-progress` → `Status: review`
 2. Tell the user: "Implementation complete — issue is now in review. Let me know once you've looked it over."
 
@@ -105,19 +106,18 @@ When all items are checked off (or the user signals implementation is complete):
 
 An issue is already in-progress. Reconstruct where things stand before continuing:
 
-1. Read the issue file — find the `## Implementation Plan` checklist
+1. Read the issue file — review the acceptance criteria checklist and any notes
 2. Run `git diff HEAD` and `git status` to see what has actually changed
-3. Cross-reference changes against checklist items:
-   - Items clearly addressed by the diff → likely complete, note them
-   - Items where the diff conflicts with what the plan says to do → flag as discrepancies
-   - Items untouched by any changes → still pending
+3. Cross-reference the diff against the acceptance criteria:
+   - Criteria clearly satisfied by the diff → likely complete, note them
+   - Criteria untouched → still pending
 
 Present a clear status summary to the user:
-- What appears done (with evidence from the diff)
+- Which acceptance criteria appear done (with evidence from the diff)
 - Any discrepancies or surprises that need a decision
 - What remains
 
-Ask the user to confirm, correct, or update. If the plan needs to change, update the checklist in the issue file. Once the user signs off on the current state, update the checkbox states accordingly and continue from where things left off.
+Re-draft the implementation plan from scratch based on what's left, then ask the user to confirm the current state and plan before continuing.
 
 ---
 
@@ -127,8 +127,6 @@ Ask the user to confirm, correct, or update. If the plan needs to change, update
 |---|---|---|
 | Plan approved | `todo` | `in-progress` |
 | Implementation complete | `in-progress` | `review` |
-| Review approved | `review` | `done` |
 
 Recognize natural language signals for each transition:
 - **Done implementing**: "done", "implementation complete", "ready for review", "finished"
-- **Review passed**: "looks good", "approved", "mark as done", "ship it", "close it", "LGTM"
