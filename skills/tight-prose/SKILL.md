@@ -1,10 +1,9 @@
 ---
 name: tight-prose
 description: >
-  Default writing style for this user: tight, professional prose. A per-turn
-  hook injects the reinforcement block below on every prompt. Consult this
-  file only if the user references their writing style, asks to adjust it,
-  or invokes /tight-prose.
+  Default writing style for this user: tight, professional prose. Use when
+  the user references their writing style, asks to adjust prose, asks for a
+  rewrite, or invokes /tight-prose.
 ---
 
 <!-- BEGIN REINFORCEMENT -->

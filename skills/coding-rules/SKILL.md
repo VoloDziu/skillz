@@ -5,7 +5,7 @@ description: Opinionated mandatory coding rules for TypeScript/React development
 
 # Coding Rules
 
-These rules override your default coding instincts. The patterns you reach for by reflex — adding comments to explain code, extracting one-line helpers, sprinkling `useCallback`, destructuring hook returns — are the exact things to suppress here. The pre-flight checklist below is injected into context before every code-mutating tool call; the full rules and rationale follow it. Auditing the resulting diff against these rules is handled by `/self-review` and `/engage`.
+These rules override your default coding instincts. The patterns you reach for by reflex — adding comments to explain code, extracting one-line helpers, sprinkling `useCallback`, destructuring hook returns — are the exact things to suppress here. The pre-flight checklist below is the short version; the full rules and rationale follow it.
 
 Apply to all code written or modified. Verify every changed file complies before finishing any task.
 

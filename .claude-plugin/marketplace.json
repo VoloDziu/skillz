@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "skillz",
-      "description": "Personal Claude skills — engage, to-issues, to-prd, grill-with-docs, caveman, and more.",
+      "description": "Personal coding, planning, and writing workflows.",
       "author": "Volodymyr Dziubak",
       "source": {
         "source": "github",

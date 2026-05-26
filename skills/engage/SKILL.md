@@ -7,18 +7,19 @@ description: Pick up and implement a PRD end-to-end. Use this when the user want
 
 Work a PRD end-to-end: pick it up, plan the implementation, implement it, and close it out.
 
-The PRD tracker structure is in the `## Agent skills` block in CLAUDE.md — run `/setup` if that block doesn't exist.
+The PRD tracker structure is in the `## Agent skills` block in AGENTS.md — run `/setup` if that block doesn't exist.
 
 ---
 
 ## Step 1: Orient
 
-Before picking up a new PRD, check the current state of the tracker:
+Before picking up a PRD, check the current state of the tracker:
 
 1. Scan all `.scratch/PRD/*.md` files
-2. Look for any PRD with `Status: in review` — there should be at most one
+2. Look for PRDs with `Status: in review`
 
-- **In-review PRD found** → surface it: tell the user which feature is awaiting review and ask if they're ready to close it out with `/done`
+- **One in-review PRD found** → surface it: tell the user which feature is awaiting review and say `/done` closes and commits it
+- **Multiple in-review PRDs found** → tell the user the tracker is ambiguous and stop
 - **None** → go to [Pick Next PRD](#pick-next-prd)
 
 ---

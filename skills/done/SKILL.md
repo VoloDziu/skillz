@@ -1,22 +1,23 @@
 ---
 name: done
-description: Close out the current in-progress or review PRD, stage all changes, and commit with the PRD slug as the message. Use when the user says "done", "ship it", "commit", "close the PRD", "mark as done", "wrap up", or "I'm done".
+description: Close out the current in-review PRD, stage all changes, and commit with the PRD slug as the message. Use only when the user explicitly invokes `/done` or directly asks to run the done skill.
 ---
 
 # Done
 
 Close the current PRD, commit all staged changes, and use the PRD slug as the commit message.
 
-The PRD tracker structure is in the `## Agent skills` block in CLAUDE.md.
+The PRD tracker structure is in the `## Agent skills` block in AGENTS.md.
 
 ## Steps
 
 ### 1. Find the current PRD
 
-Scan `.scratch/PRD/*.md` for a PRD with `Status: in review`. There should be at most one.
+Scan `.scratch/PRD/*.md` for a PRD with `Status: in review`.
 
 - If none found: tell the user there's no active PRD and stop.
-- If found: proceed.
+- If multiple are found: tell the user there are multiple in-review PRDs and stop.
+- If one is found: proceed.
 
 ### 2. Mark it done
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engage"
+  short_description: "Pick up and implement a PRD."
+  default_prompt: "Use $engage to pick up the next PRD."
