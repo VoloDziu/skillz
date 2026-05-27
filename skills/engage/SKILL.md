@@ -1,11 +1,11 @@
 ---
 name: engage
-description: Pick up and implement a PRD end-to-end. Use this when the user wants to start or resume work on a feature, ask what to work on next, or begin implementing something from the backlog. Triggers on intent to begin or continue development work — "engage", "start work", "what should I work on", "let's build X", "resume", "back to work", "pick up a PRD", or any similar phrasing that signals the user is ready to code.
+description: Pick up and implement a PRD-tracker item end-to-end. Use when the user explicitly invokes /engage, asks to pick up the next PRD, asks what PRD/backlog item to work on next, or says to resume PRD-tracked work. Do not use for generic coding requests, one-off feature requests, or casual "let's build X" prompts unless the user connects the work to the PRD tracker.
 ---
 
 # Engage
 
-Work a PRD end-to-end: pick it up, plan the implementation, implement it, and close it out.
+Work a PRD-tracker item end-to-end: pick it up, plan the implementation, implement it, and close it out.
 
 The PRD tracker structure is in the `## Agent skills` block in AGENTS.md — run `/setup` if that block doesn't exist.
 

@@ -16,49 +16,17 @@ Apply to all code written or modified. Verify every changed file complies before
 Each bullet is the terse form of a rule. The full rationale and examples for each follow in the sections below. This list is exhaustive — every rule in this document is represented here.
 
 <!-- BEGIN PREFLIGHT -->
-**Code structure**
-- **No indirection** — no one-line helpers, aliased variables, or wrapper functions called once. Inline at the call site.
-- **Inline single-use `Props`/param types** — extract a type alias only if reused in 2+ places. Top-level/exported components are not exempt.
-- **No nested ternaries** — one ternary is fine; 2+ levels become a named pure function above the component.
-- **Positive conditions first** in `if/else` and 2-branch ternaries. Only early-return guards (`if (!x) return`) are exempt.
-- **Named-param objects** for any regular function (not a component or hook) with 2+ params.
-- **Early returns over nested conditions** — validate preconditions at the top; keep the happy path at the lowest indent.
-- **No `switch`** — use `if` with early returns.
-- **No IIFEs in components** — extract `(() => {...})()` as a named pure function above.
-- **Curly braces on every block** — wrap all `if`/`else`/`for`/`while` bodies in `{}`, even single-liners.
+**Structure:** no one-use indirection; inline single-use prop/param types; no nested ternaries, `switch`, or component IIFEs; use named-param objects for regular functions with 2+ params; use early returns, positive 2-branch conditions, and braces on every block.
 
-**React**
-- **No `useCallback` / `useMemo`** unless there's a measured perf problem.
-- **No destructuring hook returns or props** — use the whole object (`result.data`, `props.nav`). Tuple hooks (`useState`, `useReducer`) excepted.
-- **Prefer pure functions > components > hooks** when extracting shared logic.
-- **No business logic in `useEffect`** — effects sync with external systems. Move logic into the handler that sets the value.
-- **Hoist stranglers to the top of the tree** — branch feature flags / experiments at a parent wrapper, never inside the existing component.
+**React:** no `useCallback`/`useMemo` without measured need; no destructuring hook returns or props except tuple hooks; prefer pure functions over components over hooks; keep business logic out of `useEffect`; hoist feature/experiment branching above existing components.
 
-**TypeScript**
-- **No `as` casts** — refactor so types flow naturally.
-- **No `!` non-null assertions** — use `=== undefined` / `=== null` guards or optional chaining.
-- **No `eslint-disable`, `@ts-ignore`, `@ts-expect-error`** — fix the root cause.
-- **No default exports** — named exports only.
+**TypeScript:** no `as`, non-null `!`, `eslint-disable`, `@ts-ignore`, `@ts-expect-error`, or default exports.
 
-**Co-location**
-- **Helpers travel with their only caller** — when extracting a sub-component, every helper the parent no longer calls moves with it. No orphans left behind.
-- **Narrowest scope for variables** — declare in the block that uses them, not at the top of the function.
-- **Extract cohesive UI clusters** — form fields, list rows, conditional sub-views with their own helpers (and optional state) belong in their own component. Cohesion is the trigger, not size; state is not required.
-- **Derive at the point of use** — pass entities (or entity IDs) down; compute derived values where they're consumed. Don't pre-compute in the parent and thread results as props.
+**Co-location:** helpers stay with their only caller; variables use the narrowest scope; extract cohesive UI clusters; pass entities/IDs and derive display values where consumed.
 
-**Data safety**
-- **No silent defaults** (`?? 0`, etc.) for money or any value whose absence is a programming bug. Throw or guard.
+**Safety/testing/tooling:** no silent defaults for money or bug-signaling values; fix tests instead of production code unless there is a real bug; keep tests synced with new/changed/moved code; never stage/commit/push unless explicitly asked (`/done` counts).
 
-**Testing**
-- **Never change implementation to make a test pass** — fix the test, not the code (except for genuine production bugs).
-- **Keep tests in sync with code** — new fn → new test; modified → updated; moved → tests move too.
-
-**Tooling**
-- **Never `git add` / `commit` / `push`** unless explicitly asked.
-
-**General**
-- **No comments** unless the *why* is non-obvious (hidden constraint, subtle invariant, external-bug workaround). Never narrate what code does or reference the current task/ticket/caller.
-- **Refactor copied code** before using it — treat copy-paste as a first draft; apply all rules.
+**General:** no comments unless the why is non-obvious; refactor copied code before using it.
 <!-- END PREFLIGHT -->
 
 ---
@@ -201,7 +169,7 @@ Applies broadly: never silently default any value whose absence indicates a prog
 
 ## Tooling
 
-**Never commit, stage, or push on the user's behalf** — do not run `git add`, `git commit`, `git push`, or any equivalent unless explicitly asked.
+**Never commit, stage, or push on the user's behalf** — do not run `git add`, `git commit`, `git push`, or any equivalent unless explicitly asked. Invoking `/done` or directly asking to close and commit the active PRD counts as explicit permission.
 
 ---
 
