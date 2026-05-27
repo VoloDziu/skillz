@@ -23,6 +23,14 @@ For Codex, persistent enforcement comes from:
 - skill descriptions for automatic skill selection
 - manually invoking a skill when you want the full workflow
 
+Refresh the local Codex plugin cache after changing this repo:
+
+```bash
+scripts/update-codex-cache
+```
+
+The local Git `post-commit` hook can call this script so committed changes are copied into `~/.codex/plugins/cache/skillz/skillz/1.0.0`.
+
 ## Claude Code
 
 Claude reads the plugin manifest from `.claude-plugin/plugin.json` and skills from `skills/`.
