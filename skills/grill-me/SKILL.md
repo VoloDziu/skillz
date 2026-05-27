@@ -1,19 +1,13 @@
 ---
-name: grill-with-docs
-description: Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Optionally produces a PRD at the end. Use when user wants to stress-test a plan against their project's language and documented decisions.
+name: grill-me
+description: Grilling session that challenges a plan against AGENTS.md shared vocabulary, existing code, and ADRs; sharpens terminology; updates AGENTS.md vocabulary and ADRs inline as decisions crystallise; and can produce a PRD at the end. Use when the user invokes /grill-me or asks to stress-test a plan against the project's language and documented decisions.
 ---
-
-<what-to-do>
 
 Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
 
 Ask the questions one at a time, waiting for feedback on each question before continuing.
 
 If a question can be answered by exploring the codebase, explore the codebase instead.
-
-</what-to-do>
-
-<supporting-info>
 
 ## Domain awareness
 
@@ -23,7 +17,7 @@ During codebase exploration, also look for existing documentation:
 
 ```
 /
-├── CONTEXT.md
+├── AGENTS.md
 ├── docs/
 │   └── adr/
 │       ├── 0001-event-sourced-orders.md
@@ -31,10 +25,9 @@ During codebase exploration, also look for existing documentation:
 └── src/
 ```
 
-Create files lazily — only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+Create files lazily — only when you have something to write. If no `AGENTS.md` exists, tell the user to run `/setup` before writing shared vocabulary. If no `docs/adr/` exists, create it when the first ADR is needed.
 
 When creating or updating domain docs, load only the format reference needed for the artifact:
-- `references/context-format.md` for `CONTEXT.md`
 - `references/adr-format.md` for ADRs
 - `references/prd-format.md` for PRDs
 
@@ -42,7 +35,7 @@ When creating or updating domain docs, load only the format reference needed for
 
 ### Challenge against the glossary
 
-When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
+When the user uses a term that conflicts with the existing language in the `## Shared vocabulary` section of `AGENTS.md`, call it out immediately. "Your vocabulary defines 'cancellation' as X, but you seem to mean Y — which is it?"
 
 ### Sharpen fuzzy language
 
@@ -56,11 +49,11 @@ When domain relationships are being discussed, stress-test them with specific sc
 
 When the user states how something works, check whether the code agrees. If you find a contradiction, surface it: "Your code cancels entire Orders, but you just said partial cancellation is possible — which is right?"
 
-### Update CONTEXT.md inline
+### Update AGENTS.md inline
 
-When a term is resolved, propose the exact entry to add to `CONTEXT.md` and ask the user to confirm before writing. Show the proposed text inline: "I'll add this to CONTEXT.md — ok?" Wait for explicit confirmation (yes / go / approve) before touching any file.
+When a term is resolved, propose the exact entry to add to the `## Shared vocabulary` section of `AGENTS.md` and ask the user to confirm before writing. Show the proposed text inline: "Add this to AGENTS.md?" Wait for explicit confirmation (yes / go / approve) before touching any file.
 
-Don't couple `CONTEXT.md` to implementation details. Only include terms that are meaningful to domain experts.
+Do not couple shared vocabulary to implementation details. Only include terms that are meaningful to domain experts.
 
 ### Offer ADRs sparingly
 
@@ -73,8 +66,6 @@ Only offer to create an ADR when all three are true:
 If any of the three is missing, skip the ADR. Use the format in `references/adr-format.md`.
 
 When all three conditions are met, propose the ADR content inline and ask: "Should I create this ADR?" Wait for explicit confirmation before writing any file.
-
-</supporting-info>
 
 ## Wrapping up
 

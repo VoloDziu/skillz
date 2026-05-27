@@ -7,7 +7,7 @@ description: Pick up and implement a PRD-tracker item end-to-end. Use when the u
 
 Work a PRD-tracker item end-to-end: pick it up, plan the implementation, implement it, and close it out.
 
-The PRD tracker structure is in the `## Agent skills` block in AGENTS.md — run `/setup` if that block doesn't exist.
+The PRD tracker structure is in `AGENTS.md` — run `/setup` if that file doesn't exist.
 
 ---
 
@@ -28,7 +28,7 @@ Before picking up a PRD, check the current state of the tracker:
 
 Find PRDs with `Status: todo`.
 
-- **No todo PRDs**: tell the user and stop. Suggest running `/grill-with-docs` to create one.
+- **No todo PRDs**: tell the user and stop. Suggest running `/grill-me` to create one.
 - **One candidate**: confirm with the user, then go to [Gather Context](#gather-context).
 - **Multiple candidates**: show a compact list — slug + one-liner from the Problem Statement — and ask the user to choose. Once chosen, go to [Gather Context](#gather-context).
 
@@ -39,14 +39,14 @@ Find PRDs with `Status: todo`.
 Collect everything needed to plan the work. Do these in parallel:
 
 1. Read the full PRD file
-2. Read `CONTEXT.md` at the repo root if it exists
+2. Read `AGENTS.md`, including shared vocabulary and decision-record instructions
 3. Read any `docs/adr/*.md` relevant to this area
 4. Explore the codebase: find files related to what the PRD touches
 
 Synthesize what you found — don't just list sources. Explain:
 - What the feature is trying to accomplish
 - Where in the codebase this work will land
-- Any constraints from ADRs or CONTEXT.md that shape the approach
+- Any constraints from `AGENTS.md` vocabulary or ADRs that shape the approach
 
 Ask the user to fill in any gaps before drafting a plan.
 

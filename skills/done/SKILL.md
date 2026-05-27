@@ -7,7 +7,7 @@ description: Close out the current in-review PRD, stage all changes, and commit 
 
 Close the current PRD, commit all staged changes, and use the PRD slug as the commit message.
 
-The PRD tracker structure is in the `## Agent skills` block in AGENTS.md.
+The PRD tracker structure is in `AGENTS.md`.
 
 ## Steps
 

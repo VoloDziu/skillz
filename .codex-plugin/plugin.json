@@ -7,19 +7,19 @@
   },
   "repository": "https://github.com/VoloDziu/skillz",
   "license": "MIT",
-  "keywords": ["codex", "skills", "workflow", "coding-rules"],
+  "keywords": ["codex", "skills", "workflow", "prd"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Skillz",
     "shortDescription": "Personal coding, planning, and writing workflows.",
-    "longDescription": "Personal workflows for PRD-driven development, domain-document grilling, coding rules, and tight prose.",
+    "longDescription": "Personal workflows for PRD-driven development, plan grilling, repo setup, and project vocabulary.",
     "developerName": "Volodymyr Dziubak",
     "category": "Productivity",
     "capabilities": ["Write", "Review"],
     "defaultPrompt": [
       "Run setup for this repo.",
       "Engage the next PRD.",
-      "Grill this plan against the docs."
+      "Grill this plan."
     ]
   }
 }

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Tight Prose"
-  short_description: "Use the default writing style."
-  default_prompt: "Use $tight-prose to rewrite this response."
