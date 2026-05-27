@@ -60,9 +60,11 @@ PRDs live as files under `.scratch/PRD/`:
 
 Use this section for canonical domain terms and workflow language. Add entries when terminology is resolved. Keep entries short and meaningful to domain experts.
 
+When the user asks for a change, check whether the change aligns with this vocabulary. If the request uses conflicting or unclear terminology, raise the mismatch before implementing. If the vocabulary is wrong or incomplete, propose the exact amendment and ask for confirmation before updating `AGENTS.md`.
+
 ## Decision records
 
-Read any ADRs in `docs/adr/` that touch the area you're working in. If ADRs don't exist, proceed silently. Flag contradictions with an existing ADR rather than silently overriding it.
+Read any ADRs in `docs/adr/` that touch the area you're working in. If ADRs don't exist, proceed silently. When the user asks for a change, check whether the change aligns with relevant ADRs. If it conflicts with an ADR, raise the mismatch before implementing. If the ADR is outdated or the decision needs to change, propose the exact amendment or replacement and ask for confirmation before updating ADR files.
 ```
 
 ### 3. Link
