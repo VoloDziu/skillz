@@ -42,7 +42,7 @@ State the result first, then the reason if it matters. Code, commands, and error
 
 Apply these rules when writing or modifying TypeScript or React code:
 
-- Structure: no one-use indirection; inline single-use prop/param types; no nested ternaries, `switch`, or component IIFEs; use named-param objects for regular functions with 2+ params; use early returns, positive 2-branch conditions, and braces on every block.
+- Structure: no one-use indirection. Do not create a local alias, wrapper function, extracted type, helper, component, hook, or module-level cache unless it has 2+ call sites, hides real complexity, or names a domain concept used elsewhere. Prefer using the source expression directly for single-use values, including `ref.current`, object properties, props, and derived constants. Inline single-use prop/param types. No nested ternaries, `switch`, or component IIFEs. Use named-param objects for regular functions with 2+ params, early returns, positive 2-branch conditions, and braces on every block.
 - React: no `useCallback`/`useMemo` without measured need; no destructuring hook returns or props except tuple hooks; prefer pure functions over components over hooks; keep business logic out of `useEffect`; hoist feature/experiment branching above existing components.
 - TypeScript: no `as`, non-null `!`, `eslint-disable`, `@ts-ignore`, `@ts-expect-error`, or default exports.
 - Co-location: helpers stay with their only caller; variables use the narrowest scope; extract cohesive UI clusters; pass entities/IDs and derive display values where consumed.
