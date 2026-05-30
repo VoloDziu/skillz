@@ -6,7 +6,8 @@ Personal coding, planning, and writing workflows, forked from [mattpocock/skills
 
 `AGENTS.md` is the source of truth for always-on behavior. The `skills/` directory contains workflow commands:
 
-- `setup` creates a shared `AGENTS.md` file in a project and makes `CLAUDE.md` a symlink to it.
+- `setup` creates a shared `AGENTS.md` file in a project, inserts the checklist from `coding-rules`, and makes `CLAUDE.md` a symlink to it.
+- `coding-rules` stores expanded TypeScript/React coding standards with a compact pre-flight checklist.
 - `grill-me` stress-tests a plan against repo vocabulary, code, and ADRs.
 - `engage` picks up a PRD, plans the implementation, and moves it to review.
 - `done` is the explicit commit command. It closes the in-review PRD, stages all changes, and commits with the PRD slug.
@@ -17,10 +18,11 @@ Codex reads the plugin manifest from `.codex-plugin/plugin.json` and skills from
 
 Run `setup` once in each project. It writes reusable repo instructions to `AGENTS.md`, including writing style, coding rules, PRD tracker conventions, shared vocabulary, and decision-record guidance.
 
-For Codex, persistent enforcement comes from:
+Persistent enforcement comes from:
 
 - `AGENTS.md` for every-session instructions
-- skill descriptions for automatic skill selection
+- the checklist in `AGENTS.md` for default coding-rule guidance
+- `coding-rules` as the source of truth for the checklist plus expanded TypeScript/React rule rationale and examples when needed
 - manually invoking a skill when you want the full workflow
 
 Refresh the local Codex plugin cache after changing this repo:

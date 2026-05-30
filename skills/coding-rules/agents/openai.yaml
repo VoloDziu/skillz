@@ -1,0 +1,3 @@
+display_name: Coding Rules
+short_description: Apply strict TypeScript and React coding rules.
+default_prompt: Apply the coding rules while editing or reviewing this TypeScript or React code.

@@ -21,13 +21,22 @@ Check the repo root:
 
 ### 2. Write
 
-Use `AGENTS.md` as the generated source file. Replace the entire file with the content below.
+Use `AGENTS.md` as the generated source file. Replace the entire file with the rendered content below.
+
+Before rendering, read the sibling `coding-rules/SKILL.md` file and extract the text between:
+
+```markdown
+<!-- BEGIN PREFLIGHT -->
+<!-- END PREFLIGHT -->
+```
+
+That extracted pre-flight checklist is the only source of truth for coding rules. Insert it where the template says `{{CODING_RULES_PREFLIGHT}}`. Do not hand-copy or rewrite the checklist in this setup skill.
 
 If `AGENTS.md` already exists and contains project instructions that should survive, summarize them for the user and ask where they belong before continuing. Do not silently discard existing `AGENTS.md` content.
 
 If `CLAUDE.md` is a regular file, inspect it before replacing it with a symlink. If it contains project instructions that should survive, summarize them for the user and ask where they belong before continuing. Do not silently discard non-symlink `CLAUDE.md` content.
 
-Write this exact file:
+Render this template:
 
 ```markdown
 ## Writing style
@@ -40,14 +49,9 @@ State the result first, then the reason if it matters. Code, commands, and error
 
 ## Code editing rules
 
-Apply these rules when writing or modifying TypeScript or React code:
+Apply these mandatory rules when writing, modifying, reviewing, or refactoring TypeScript or React code. They override default coding instincts. Consult the `coding-rules` skill for full rationale and examples when a rule needs judgment.
 
-- Structure: no one-use indirection. Do not create a local alias, wrapper function, extracted type, helper, component, hook, or module-level cache unless it has 2+ call sites, hides real complexity, or names a domain concept used elsewhere. Prefer using the source expression directly for single-use values, including `ref.current`, object properties, props, and derived constants. Inline single-use prop/param types. No nested ternaries, `switch`, or component IIFEs. Use named-param objects for regular functions with 2+ params, early returns, positive 2-branch conditions, and braces on every block.
-- React: no `useCallback`/`useMemo` without measured need; no destructuring hook returns or props except tuple hooks; prefer pure functions over components over hooks; keep business logic out of `useEffect`; hoist feature/experiment branching above existing components.
-- TypeScript: no `as`, non-null `!`, `eslint-disable`, `@ts-ignore`, `@ts-expect-error`, or default exports.
-- Co-location: helpers stay with their only caller; variables use the narrowest scope; extract cohesive UI clusters; pass entities/IDs and derive display values where consumed.
-- Safety/testing/tooling: no silent defaults for money or bug-signaling values; fix tests instead of production code unless there is a real bug; keep tests synced with new/changed/moved code; never stage/commit/push unless explicitly asked (`/done` counts).
-- General: no comments unless the why is non-obvious; refactor copied code before using it.
+{{CODING_RULES_PREFLIGHT}}
 
 ## PRD tracker
 
