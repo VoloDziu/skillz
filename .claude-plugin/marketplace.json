@@ -8,7 +8,9 @@
     {
       "name": "skillz",
       "description": "Personal coding, planning, and writing workflows.",
-      "author": "Volodymyr Dziubak",
+      "author": {
+        "name": "Volodymyr Dziubak"
+      },
       "source": {
         "source": "github",
         "repo": "VoloDziu/skillz"
