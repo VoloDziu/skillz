@@ -28,6 +28,7 @@ Each bullet is the terse form of a rule. The fuller rationale and examples follo
 **React**
 - **No `useCallback` or `useMemo`** unless there is a measured performance problem.
 - **No destructuring hook returns, props, or function params**: use the whole object (`result.data`, `props.nav`, `params.queryTokens`). Tuple APIs such as `useState`, `useReducer`, and `Promise.all` are exempt.
+- **Keep event handlers inside components**: define click, change, select, submit, hover, and similar React event handlers inside the component that owns the state and props they touch.
 - **Prefer pure functions over components over hooks** when extracting shared logic.
 - **No business logic in `useEffect`**: effects sync with external systems. Move logic into the handler that sets the value.
 - **Hoist feature or experiment branching above existing components**: branch in a parent wrapper instead of weaving flags into component internals.
@@ -35,6 +36,7 @@ Each bullet is the terse form of a rule. The fuller rationale and examples follo
 **TypeScript**
 - **No `as` casts**: refactor so types flow naturally.
 - **No non-null assertions**: use `=== undefined`, `=== null`, or optional chaining.
+- **Use discriminated unions over runtime checks**: model variants with explicit discriminants instead of optional params, nullable fields, or inferred shape checks when the caller knows the variant.
 - **No `eslint-disable`, `@ts-ignore`, or `@ts-expect-error`**: fix the root cause.
 - **No default exports**: named exports only.
 
@@ -208,6 +210,42 @@ const [value, setValue] = useState("");
 const [users, posts] = await Promise.all([fetchUsers(), fetchPosts()]);
 ```
 
+**Keep React event handlers inside components**: define handlers for click, change, select, submit, hover, keyboard, and similar UI events in the component that owns the state and props they read or update. Do not extract a handler into a pure function only to pass component state, setters, or props back into it. Extract only the domain computation inside the handler when it is reusable or meaningfully complex.
+
+```tsx
+// Don't
+function handleNameChange(params: {
+  value: string;
+  setName: (value: string) => void;
+}) {
+  params.setName(params.value.trimStart());
+}
+
+function NameField(): React.ReactNode {
+  const [name, setName] = useState("");
+
+  return (
+    <Input
+      value={name}
+      onChange={(event) =>
+        handleNameChange({ value: event.target.value, setName })
+      }
+    />
+  );
+}
+
+// Do
+function NameField(): React.ReactNode {
+  const [name, setName] = useState("");
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setName(event.target.value.trimStart());
+  }
+
+  return <Input value={name} onChange={handleChange} />;
+}
+```
+
 **Prefer pure functions over components over hooks** when extracting shared logic. Reach for a hook only when React lifecycle is genuinely required.
 
 **No business logic in `useEffect`**: effects sync with external systems. If an effect runs only because a value changed that you set elsewhere, move the logic into the handler that sets it.
@@ -227,6 +265,42 @@ return isExperiment ? <PaymentFormV2 /> : <PaymentForm />;
 **No `as` type casting**: refactor so types flow naturally.
 
 **No non-null assertions**: use `=== undefined`, `=== null`, or optional chaining.
+
+**Use discriminated unions over runtime checks**: when a value has variants and the caller knows which variant it is creating, encode the variant in the type with an explicit discriminant. Do not collapse variants into optional params, nullable fields, or inferred shape checks that force the callee to rediscover intent at runtime.
+
+```ts
+// Don't
+function placeBand(params: {
+  pageIndex: number;
+  columnIndex?: number;
+  type: "header" | "footer";
+}) {
+  if (params.columnIndex === undefined) {
+    return `${params.type} for page ${params.pageIndex}`;
+  }
+
+  return `${params.type} for column ${params.columnIndex}`;
+}
+
+// Do
+type PlaceBandParams = {
+  pageIndex: number;
+  type: "header" | "footer";
+} & (
+  | { scope: "page" }
+  | { scope: "column"; columnIndex: number }
+);
+
+function placeBand(params: PlaceBandParams) {
+  if (params.scope === "page") {
+    return `${params.type} for page ${params.pageIndex}`;
+  }
+
+  return `${params.type} for column ${params.columnIndex}`;
+}
+```
+
+Put shared fields outside the union and keep only variant-specific fields inside each branch: `{ shared: Shared } & ({ kind: "a"; a: A } | { kind: "b"; b: B })`.
 
 **No `eslint-disable`, `@ts-ignore`, or `@ts-expect-error`**: fix the underlying issue.
 
