@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Grilling session that challenges a plan against AGENTS.md shared vocabulary, existing code, and ADRs; sharpens terminology; updates AGENTS.md vocabulary and ADRs inline as decisions crystallise; and can produce a PRD at the end. Use when the user invokes /grill-me or asks to stress-test a plan against the project's language and documented decisions.
+description: Grilling session that challenges a plan against AGENTS.md shared vocabulary, existing code, and ADRs; sharpens terminology; updates AGENTS.md vocabulary and ADRs inline as decisions crystallise; and creates a PRD at the end. Use when the user invokes /grill-me or asks to stress-test a plan against the project's language and documented decisions.
 ---
 
 Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
@@ -51,13 +51,13 @@ When the user states how something works, check whether the code agrees. If you 
 
 ### Update AGENTS.md inline
 
-When a term is resolved, propose the exact entry to add to the `## Shared vocabulary` section of `AGENTS.md` and ask the user to confirm before writing. Show the proposed text inline: "Add this to AGENTS.md?" Wait for explicit confirmation (yes / go / approve) before touching any file.
+When a term is resolved, add the exact entry to the `## Shared vocabulary` section of `AGENTS.md` immediately. Tell the user what entry you are adding before writing it. Do not ask for confirmation before writing resolved shared vocabulary.
 
 Do not couple shared vocabulary to implementation details. Only include terms that are meaningful to domain experts.
 
-### Offer ADRs sparingly
+### Write ADRs sparingly
 
-Only offer to create an ADR when all three are true:
+Only create an ADR when all three are true:
 
 1. **Hard to reverse** — the cost of changing your mind later is meaningful
 2. **Surprising without context** — a future reader will wonder "why did they do it this way?"
@@ -65,16 +65,15 @@ Only offer to create an ADR when all three are true:
 
 If any of the three is missing, skip the ADR. Use the format in `references/adr-format.md`.
 
-When all three conditions are met, propose the ADR content inline and ask: "Should I create this ADR?" Wait for explicit confirmation before writing any file.
+When all three conditions are met, tell the user this decision needs an ADR, summarize the decision briefly, load `references/adr-format.md`, and write the ADR immediately. Do not ask for confirmation before writing ADRs.
 
 ## Wrapping up
 
-When the grilling session reaches a natural end (all branches of the design tree resolved, no more open questions, user signals they're done), ask:
+When the grilling session reaches a natural end (all branches of the design tree resolved, no more open questions, user signals they're done), tell the user:
 
-> "We've covered the ground — want me to write this up as a PRD?"
+> "We've covered the ground. This grill session is done; I will now create the PRD."
 
-If the user confirms, synthesize the entire session into a PRD using `references/prd-format.md`. Explore the repo first if needed to ground implementation decisions in the actual codebase. Present the draft inline in the conversation — **do not write any files yet**. Ask: "Does this look right? Reply yes/go/approve to save it."
+Then synthesize the entire session into a PRD using `references/prd-format.md`. Explore the repo first if needed to ground implementation decisions in the actual codebase. Do not ask whether a PRD should be created, do not present the draft for confirmation, and do not wait for approval before saving it.
 
-Once confirmed:
 1. Derive a slug from the PRD title (lowercase, hyphenated)
 2. Save to `.scratch/PRD/<prd-slug>.md` with `Status: todo` at the very top
